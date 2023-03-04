@@ -2,6 +2,18 @@ import { useState } from 'react'
 
 var ary = new Uint8Array(8); 
 
+const MaxVote = (props) => {
+  let maxAnecdote = props.anecdote
+  return (
+    <div>
+      <br/>
+      {maxAnecdote[ary.indexOf(Math.max(...ary))]}
+      <br />
+      has {Math.max(...ary)} votes
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -29,15 +41,6 @@ const App = () => {
     ary[selected] += 1
   }
 
-  const MaxVote = () => {
-    return (
-      <div>
-        <br/>
-        { anecdotes[ary.indexOf(Math.max(...ary))]} has {Math.max(...ary)} votes
-      </div>
-    )
-  }
-
   return (
     <div>
       <br/>
@@ -50,7 +53,7 @@ const App = () => {
       <button onClick={handleVote}>Vote</button>
       <button onClick={handleClick}>Next Anecdote</button>
       <br />
-      <MaxVote />
+      <MaxVote anecdote={anecdotes} />
     </div>
   );
 }
