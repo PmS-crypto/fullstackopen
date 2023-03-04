@@ -23,7 +23,6 @@ const StatisticLine = (props) => {
 
 const Statistics = (props) => {
   let total = props.good + props.neutral + props.bad
-  console.log(total)
   if (!total)
     return ("No feedback received")
   
