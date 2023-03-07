@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import Filter from './components/Filter.js'
+import PersonForm from './components/PersonForm.js'
+import Person from './components/Person.js'
+
 
 const App = (props) => {
   const [persons, setPersons] = useState(props.names) 
@@ -23,7 +27,9 @@ const App = (props) => {
     event.preventDefault()
     const notequal = (x) => x.name!==newName
     const nequal = persons.every(notequal)
-  
+    if (newName === '' || newNumber==="") {
+      alert("Please enter the name and number")
+    }
     if (nequal) {
       const newObj = {
         id: persons.length+1,
@@ -44,25 +50,25 @@ const App = (props) => {
     }
   }
 
-  const filterCheck = (p) => {
-    return p.name === newFilter
-  }
+  // const filterCheck = (p) => {
+  //   return p.name === newFilter
+  // }
 
-  const filteredContent = () => {
-    if (newFilter) {
-      var c = persons
-      setPersons(persons.filter(filterCheck))
-      console.log(persons)
-      setFilter('')
-    }    
-    else {
-      alert("Enter a name to filter")
-    }
-    if (!persons) {
-      alert(`${newFilter} is not in the Phonebook`)
-      setPersons(c)
-    }
-  }
+  // const filteredContent = () => {
+  //   if (newFilter) {
+  //     var c = persons
+  //     setPersons(persons.filter(filterCheck))
+  //     console.log(persons)
+  //     setFilter('')
+  //   }    
+  //   else {
+  //     alert("Enter a name to filter")
+  //   }
+  //   if (!persons) {
+  //     alert(`${newFilter} is not in the Phonebook`)
+  //     setPersons(c)
+  //   }
+  // }
 
   const filterToShow = showFilter
     ? persons.filter(person => person.name===newFilter)
@@ -71,22 +77,11 @@ const App = (props) => {
   return (
     <div>
       <h2>Phonebook</h2>
-      Filter by name: <input value={newFilter} onChange={handleFilter} />
-      <button onClick={()=>{setShowFilter(!showFilter)}}>filter</button>
+      <Filter value={newFilter} onChange={handleFilter} eventFunction={() => { setShowFilter(!showFilter) }} />
       <h3>Add a contact</h3>
-      <form onSubmit={displayName}>
-        <div>
-          name: <input value={newName} onChange={handleNewName} />
-        </div>
-        <div>number: <input value={newNumber} onChange={handleNewNumber}/></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm submit={displayName} valueName={newName} onChangeName={handleNewName} valueNumber={newNumber} onChangeNumber={handleNewNumber}/>
       <h3>List</h3>
-      <ul>
-        {filterToShow.map(p => <li key={p.id}>{p.name} {p.number}</li>)}
-      </ul>
+      {persons?<Person function={filterToShow} />:<></> }
     </div>
   )
 }
