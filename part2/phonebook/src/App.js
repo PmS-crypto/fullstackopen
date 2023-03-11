@@ -3,6 +3,8 @@ import Filter from './components/Filter.js'
 import PersonForm from './components/PersonForm.js'
 import Person from './components/Person.js'
 import axios from 'axios';
+import backendNotes from './services/persons.js';
+import persons from './services/persons.js';
 
 const App = (props) => {
   const [persons, setPersons] = useState(props.names) 
@@ -13,15 +15,12 @@ const App = (props) => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('successfully fetched')
-      setPersons(response.data)
+    backendNotes
+      .getAll()
+      .then(response => {setPersons(response)
     })
   },[])
   
-
   const handleNewName = (event) => {
     setNewName(event.target.value)
   }
@@ -49,9 +48,19 @@ const App = (props) => {
       }
       // console.log(newObj)
   
-      setPersons(persons.concat(newObj))
-      setNewName('')
-      setNewNumber('')
+      backendNotes
+        .create(newObj)
+        .then(response => {
+          console.log('successfully fetched')
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+      })
+      console.log('posted in server')
+      // setPersons(persons.concat(newObj))
+      // setNewName('')
+      // setNewNumber('')
+
       // console.log(persons)
     }
     else {
