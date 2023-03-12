@@ -3,6 +3,8 @@ import Filter from './components/Filter.js'
 import PersonForm from './components/PersonForm.js'
 import Person from './components/Person.js'
 import backendNotes from './services/persons.js';
+import Notification from './components/Notification.js';
+import './index.css'
 
 const App = (props) => {
   const [persons, setPersons] = useState(props.names)
@@ -10,6 +12,7 @@ const App = (props) => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setFilter] = useState('')
   const [showFilter, setShowFilter] = useState(false)
+  const [message,showMessage] = useState(null)
   var empty = false
 
   useEffect(() => {
@@ -58,6 +61,10 @@ const App = (props) => {
           setPersons(persons.concat(response))
           setNewName('')
           setNewNumber('')
+          showMessage(`Added ${newName}`)
+          setTimeout(() => {
+            showMessage(null)
+          },5000)
           console.log(response)
         })
         .catch(error =>
@@ -126,6 +133,7 @@ const App = (props) => {
     return (
       <div>
         <h2>Phonebook</h2>
+        <Notification message={message} />
         <Filter value={newFilter} onChange={handleFilter} eventFunction={() => { setShowFilter(!showFilter) }} />
         <h3>Add a contact</h3>
         <PersonForm submit={displayName} valueName={newName} onChangeName={handleNewName} valueNumber={newNumber} onChangeNumber={handleNewNumber} />

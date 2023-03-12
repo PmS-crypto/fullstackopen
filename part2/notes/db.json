@@ -24,6 +24,11 @@
       "id": 5,
       "content": "this is a new note2",
       "important": false
+    },
+    {
+      "id": 7,
+      "content": "this is a new note",
+      "important": false
     }
   ],
   "foobar": {
