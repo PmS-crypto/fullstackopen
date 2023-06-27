@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+// import counrtiesData from './services/countries';
 import axios from 'axios';
-import counrtiesData from './services/countries';
 
 const App = () => {
   const [country, setCountry] = useState(''); 
@@ -10,32 +10,50 @@ const App = () => {
     setCountry(e.target.value)
   }
 
-  useEffect(() => {
-    counrtiesData
-    .getAll()
+  const displayCountry = () => {
+    axios
+    .get(`https://restcountries.com/v3.1/name/${country}/?fields=name,capital,currencies`)
     .then(response =>
-        setResult(response)
-      )
-  },[])    
+        setResult(response.data[0]))
+  }
 
- 
+
+  // useEffect(() => {
+  //   if (country) {
+  //     axios
+  //   .get(`https://restcountries.com/v3.1/name/${country}/?fields=name,capital,currencies`)
+  //   .then(response =>
+  //       setResult(response)
+  //     )
+  //   }
+  // })    
 
   return (
     <div className="App">
       find countries 
       <input value={country} onChange={handleChange}></input>
       <br />
-      <button>Show the country details</button>
+      <button onClick={displayCountry}>Show the country details</button>
       <br />
       <br />
-
-      The country you have entered is: {country}
-      <br />
-      The details are as follows: 
-      <br />
-      <br />
-      <h2>Country name: </h2>
-      {result.map(p=> p.name)}
+      {result.capital}
+      <br/>
+      {result.altSpellings[0]}
+      {/* {result.name.common} */}
+      {/* {(result!==null) ?
+        <div>
+        <p>The country you have entered is: {country} 
+        <br />
+        The details are as follows: {result.capital} </p>
+        <br />
+        <br />
+        <h2>Country name: {result.name.common}</h2>
+        <p>Currencies: </p>
+        </div>  
+      :
+      <></>
+      } */}
+      
     </div>
   );
 }

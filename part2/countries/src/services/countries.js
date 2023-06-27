@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = 'https://restcountries.com/v3.1/all';
+const baseUrl = 'https://restcountries.com/v3.1/all?fields=name,capital,currencies';
 
 const getAll = () => {
     axios
